@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mini CRM</title>
+  <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Mini CRM</h1>
+    <p id="resumen">Cargando resumen…</p>
+  </header>
+
+  <main>
+    <section class="panel-lista">
+      <label for="buscador">Buscar cliente</label>
+      <input id="buscador" type="search" autocomplete="off" placeholder="Ej.: Pérez o Café Altura" aria-describedby="ayuda-buscador">
+      <p id="ayuda-buscador" class="ayuda">Escribe al menos 2 letras del nombre o de la empresa para filtrar la lista.</p>
+
+      <p id="contador" class="contador" aria-live="polite">Cargando clientes…</p>
+      <ul id="clientes" class="lista-clientes"></ul>
+    </section>
+
+    <section id="detalle" class="panel-detalle" aria-live="polite">
+      <p class="ayuda">Haz clic en un cliente de la lista para ver su detalle.</p>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+* { box-sizing: border-box; }
+
+/* Reserva el espacio de la barra de scroll para que la página no se mueva al filtrar. */
+html { scrollbar-gutter: stable; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: #1f2933;
+  background: #f5f7fa;
+}
+
+header {
+  padding: 1rem 2rem;
+  color: #fff;
+  background: #1d4e89;
+}
+
+header h1 { margin: 0 0 .25rem; }
+header p { margin: 0; opacity: .9; }
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  max-width: 1040px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 720px) {
+  main { grid-template-columns: 1fr; }
+}
+
+label { display: block; margin-bottom: .5rem; font-weight: 600; }
+
+.ayuda { margin: .5rem 0 0; font-size: .9rem; color: #616e7c; }
+
+#buscador {
+  width: 100%;
+  padding: .75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+}
+
+.contador { margin: 1.25rem 0 .5rem; font-size: .9rem; font-weight: 600; color: #3e4c59; }
+
+.lista-clientes {
+  max-height: max(12rem, calc(100vh - 21rem));
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+.lista-clientes li + li { border-top: 1px solid #e4e7eb; }
+
+.lista-clientes button {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  width: 100%;
+  padding: .6rem 1rem;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.lista-clientes button small { color: #616e7c; }
+.lista-clientes button:hover { background: #f0f4f8; }
+.lista-clientes button.seleccionado { background: #e4ecf7; box-shadow: inset 4px 0 0 #1d4e89; }
+.lista-clientes .vacio { padding: .75rem 1rem; color: #616e7c; }
+
+.panel-detalle {
+  padding: 0 1.5rem;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+.panel-detalle > .ayuda { margin: 0; padding: 1.5rem 0; }
+#detalle dl { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; padding-bottom: 1.5rem; }
+#detalle dt { font-weight: 600; }
+#detalle dd { margin: 0; }
+#detalle .error { padding: 1rem 0; color: #ba2525; }
