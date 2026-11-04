@@ -1,11 +1,11 @@
-import { readFileSync, writeFile } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 const RUTA_DATOS = new URL('../data/clientes.json', import.meta.url);
 
 const clientes = JSON.parse(readFileSync(RUTA_DATOS, 'utf-8'));
 
-export class errorValidacion extends Error {
-  constuctor(error){
+export class ErrorValidacion extends Error {
+  constructor(error){
     super(error.join(' '));
     this.error = error;
   }
@@ -33,9 +33,42 @@ export function resumen() {
     activos: clientesActivos().length,
     ventasTotales: totalVentas(),
   };
+}
 
-function guardarClientes() {
-  writeFile(RUTA_DATOS, JSON.stringify(clientes, null, 2)+'\n');
+  //funcion de crear cliente
+export function crearCliente(datos) {
+
+  const cliente = {
+      id: Math.max(0, ...clientes.map((c) => c.id)) + 1,
+      ...limpiarDatos(datos),
+      fechaRegistro: new Date().toISOString().slice(0, 10),
+    };
+  clientes.push(cliente);
+  guardar();
+  return cliente;
+}
+
+//funcion de actualizar cliente
+export function actualizarCliente(id, datos) {
+  const cliente = obtenerClientePorId(id);
+  if (!cliente) return undefined;
+  Object.assign(cliente, limpiarDatos(datos));
+  guardar();
+  return cliente;
+}
+
+//funcion de eliminar cliente
+export function eliminarCliente(id) {
+  const index = clientes.findIndex((cliente) => cliente.id === Number(id));
+  if (index === -1) return false;
+  clientes.splice(index, 1);
+  guardar();
+  return true;
+}
+
+
+function guardar() {
+  writeFileSync(RUTA_DATOS, JSON.stringify(clientes, null, 2)+'\n');
 }
 
 // revisar los datos del formulario
@@ -49,13 +82,15 @@ function limpiarDatos(datos) {
 
   if(!nombre) errores.push('El nombre es obligatorio');
 
-  if(!email) errores.push('El email es obligatorio');
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    errores.push("el email no es valido");
+  }
 
   if (!Number.isFinite(totalCompras) || totalCompras < 0) {
     errores.push('El total de compras debe ser un número mayor o igual a 0');
   }
 
-  if(errores.length) throw new errorValidacion(errores);
+  if(errores.length) throw new ErrorValidacion(errores);
 
   return {
     nombre,
@@ -78,4 +113,4 @@ function limpiarDatos(datos) {
 
 
 
-}
+

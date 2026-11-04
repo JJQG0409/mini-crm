@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
-import { obtenerClientes, obtenerClientePorId, clientesActivos, resumen } from './clientes.js';
+import { obtenerClientes, obtenerClientePorId, clientesActivos, resumen, crearCliente, actualizarCliente, eliminarCliente, ErrorValidacion } from './clientes.js';
 import { buscarClientes } from './busqueda.js';
 
 const PUERTO = process.env.PORT ?? 3000;
@@ -11,6 +11,7 @@ const TIPOS_DE_CONTENIDO = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
 };
+const LIMITE_CUERPO = 100_000;
 
 function responderJson(res, estado, datos) {
   res.writeHead(estado, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -46,8 +47,16 @@ async function atenderPeticion(req, res) {
 
   // GET /api/clientes
   if (url.pathname === '/api/clientes') {
-    return responderJson(res, 200, clientesActivos().map(datosParaLista));
+    // se cambio el metodo
+    if (req.method === 'GET') {
+      return responderJson(res, 200, clientesActivos().map(datosParaLista));
+    }
+    if(req.method === 'POST') {
+      return responderJson(res, 201, crearCliente(await leerJson(req)));
   }
+
+  return responderJson(res, 405, { error: 'No encontrado' });
+}
 
   // GET /api/clientes/buscar?q=texto&limite=5
   if (url.pathname === '/api/clientes/buscar') {
@@ -60,12 +69,43 @@ async function atenderPeticion(req, res) {
   // GET /api/clientes/:id
   if (url.pathname.startsWith('/api/clientes/')) {
     const id = url.pathname.split('/')[3];
-    const cliente = obtenerClientePorId(id);
-    if (!cliente) return responderJson(res, 404, { error: 'Cliente no encontrado' });
-    return responderJson(res, 200, cliente);
+    const noEncontrado = () => responderJson(res, 404, { error: 'No encontrado' });
+
+    if (req.method === 'GET') {
+      const cliente = obtenerClientePorId(id);
+      return cliente ? responderJson(res, 200, cliente) : noEncontrado();
+    }
+
+    if (req.method === 'PUT') {
+      const cliente = actualizarCliente(id, await leerJson(req));
+      return cliente ? responderJson(res, 200, cliente) : noEncontrado();
+    }
+    
+    if (req.method === 'DELETE') {
+      if (!eliminarCliente(id)) return noEncontrado();
+      res.writeHead(204);
+      return res.end();
+    }
+
+    return responderJson(res, 405, { error: 'Método no permitido' });
   }
 
-  return servirArchivo(res, url.pathname);
+}
+
+//leer la peticcion
+async function leerJson(req) {
+  let texto = '';
+  for await (const trozo of req) {
+    texto += trozo;
+    if (texto.length > LIMITE_CUERPO){
+      throw new Error('Cuerpo demasiado grande');
+    }
+}
+try {
+  return JSON.parse(texto);
+} catch {
+  throw new Error('JSON inválido');
+}
 }
 
 const servidor = createServer(async (req, res) => {
