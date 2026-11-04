@@ -330,24 +330,13 @@
     "totalCompras": 8800
   },
   {
-    "id": 32,
-    "nombre": "Prueba",
-    "empresa": null,
-    "email": "p@x.com",
-    "telefono": null,
-    "ciudad": null,
-    "totalCompras": 0,
-    "activo": true,
-    "fechaRegistro": "2026-11-04"
-  },
-  {
-    "id": 34,
-    "nombre": "Prueba",
-    "empresa": null,
-    "email": null,
-    "telefono": null,
-    "ciudad": null,
-    "totalCompras": 0,
+    "id": 35,
+    "nombre": "juan",
+    "empresa": "holaaaaaa",
+    "email": "hola@gmail.com",
+    "telefono": "111111111",
+    "ciudad": "guatemala",
+    "totalCompras": 100,
     "activo": true,
     "fechaRegistro": "2026-11-04"
   }
