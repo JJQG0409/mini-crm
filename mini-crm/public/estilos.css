@@ -91,3 +91,39 @@ label { display: block; margin-bottom: .5rem; font-weight: 600; }
 #detalle dt { font-weight: 600; }
 #detalle dd { margin: 0; }
 #detalle .error { padding: 1rem 0; color: #ba2525; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.25rem; }
+
+.btn {
+  padding: .55rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  color: #1d4e89;
+  background: #fff;
+  border: 1px solid #1d4e89;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn:hover:not(:disabled) { background: #e4ecf7; }
+.btn:disabled { color: #9aa5b1; border-color: #cbd2d9; cursor: not-allowed; }
+.btn-primario { color: #fff; background: #1d4e89; }
+.btn-primario:hover:not(:disabled) { background: #163c6b; }
+.btn-peligro { color: #ba2525; border-color: #ba2525; }
+.btn-peligro:hover:not(:disabled) { background: #fdeaea; }
+
+dialog { width: min(28rem, 92vw); padding: 1.5rem; border: 0; border-radius: 8px; box-shadow: 0 8px 30px rgba(0, 0, 0, .25); }
+dialog::backdrop { background: rgba(31, 41, 51, .5); }
+dialog h2 { margin: 0 0 1rem; }
+dialog label { font-weight: 600; }
+dialog input:not([type="checkbox"]) {
+  width: 100%;
+  margin-top: .25rem;
+  padding: .55rem .75rem;
+  font: inherit;
+  font-weight: 400;
+  border: 1px solid #cbd2d9;
+  border-radius: 6px;
+}
+dialog .casilla { display: flex; align-items: center; gap: .5rem; }
+dialog .error { min-height: 1.25rem; margin: 0 0 .5rem; color: #ba2525; font-size: .9rem; }
+dialog .acciones { justify-content: flex-end; margin: 0; }
