@@ -90,6 +90,8 @@ async function atenderPeticion(req, res) {
     return responderJson(res, 405, { error: 'Método no permitido' });
   }
 
+  return servirArchivo(res, url.pathname);
+
 }
 
 //leer la peticcion

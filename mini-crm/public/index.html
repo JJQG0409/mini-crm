@@ -14,6 +14,11 @@
 
   <main>
     <section class="panel-lista">
+      <div class="acciones" role="toolbar" aria-label="Acciones sobre clientes">
+        <button id="btn-crear" type="button" class="btn btn-primario">Nuevo cliente</button>
+        <button id="btn-modificar" type="button" class="btn" disabled>Modificar</button>
+        <button id="btn-eliminar" type="button" class="btn btn-peligro" disabled>Eliminar</button>
+      </div>
       <label for="buscador">Buscar cliente</label>
       <input id="buscador" type="search" autocomplete="off" placeholder="Ej.: Pérez o Café Altura" aria-describedby="ayuda-buscador">
       <p id="ayuda-buscador" class="ayuda">Escribe al menos 2 letras del nombre o de la empresa para filtrar la lista.</p>
@@ -26,6 +31,31 @@
       <p class="ayuda">Haz clic en un cliente de la lista para ver su detalle.</p>
     </section>
   </main>
+
+  <dialog id="dialogo-cliente">
+    <from id="formulario" novalidate>
+      <h2 id="titulo-dialogo">Nuevo cliente</h2>
+
+      <label>Nombre <input name="nombre" required autocomplete="off"></label>
+      <label>Empresa <input name="empresa" autocomplete="off"></label>
+      <label>Email <input name="email" type="email" autocomplete="off"></label>
+      <label>Teléfono <input name="telefono" autocomplete="off"></label>
+      <label>Ciudad <input name="ciudad" autocomplete="off"></label>
+      <label>Total de compras (GTQ) <input name="totalCompras" type="number" min="0" step="0.01" value="0"></label>
+      <label class="casilla"><input name="activo" type="checkbox" checked> Cliente activo</label>
+      <p id="errores-formulario" class="error" role="alert"></p>
+      <div class="acciones">
+        <button id="btn-cancelar" type="button" class="btn">Cancelar</button>
+        <button type="submit" class="btn btn-primario">Guardar</button>
+      </div>
+    </form>
+
+      <div class="acciones">
+        <button id="btn-guardar" type="submit" class="btn btn-primario">Guardar</button>
+        <button id="btn-cancelar" type="button" class="btn">Cancelar</button>
+      </div>
+   
+  </dialog>
 
   <script src="/app.js"></script>
 </body>
